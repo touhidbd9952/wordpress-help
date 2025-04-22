@@ -1,0 +1,33 @@
+////////Editor plugin in WordPress///////////////
+
+Here’s how you can use Gutenberg (Block Editor) or the Classic Editor plugin in WordPress, depending on your preference:
+---
+1. Using the Gutenberg (Block Editor)
+The Gutenberg editor is the default editor in WordPress (since version 5.0). It uses a block-based system where each paragraph, image, heading, etc., is a block.
+How to Use It:
+1. Create or Edit a Post/Page: Go to Posts > Add New or edit an existing post.
+2. Add Blocks: Click the "+" icon to add blocks like paragraphs, headings, images, buttons, etc.
+3. Move Blocks: Use the drag-and-drop handles to reorder blocks.
+4. Block Settings: Click on any block and use the sidebar on the right to customize (like changing font size, color, etc.).
+5. Preview & Publish: Use the Preview button to see how it looks, then click Publish or Update.
+Useful Tips:
+Use the / command to quickly insert blocks (e.g., type /image to insert an image block).
+You can create Reusable Blocks for repeating content.
+---
+2. Using the Classic Editor Plugin
+If you prefer the older interface (like a Word-style editor), you can use the Classic Editor plugin.
+How to Install and Use:
+1. Go to Plugins > Add New
+2. Search for "Classic Editor".
+3. Install and activate it.
+4. Once activated, it will replace the block editor with the classic one.
+How to Switch Between Editors:
+After installing Classic Editor, go to Settings > Writing.
+Choose whether to use the Classic Editor by default or allow users to switch between Classic and Block editor.
+---
+Switching Back to Gutenberg
+If you want to switch back to Gutenberg after using Classic:
+Deactivate the Classic Editor plugin.
+The block editor will automatically become the default again.
+---
+Would you like a visual guide or short video to walk through either of them?
