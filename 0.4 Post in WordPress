@@ -1,0 +1,46 @@
+////////Post in WordPress////////////
+
+In WordPress, a post is a piece of content, typically used for blog entries, news updates, or chronological content. It’s one of the default content types in WordPress (along with pages, media, etc.).
+---
+What Is a Post in WordPress?
+Posts are dynamic content entries.
+They are displayed by date, with the newest at the top.
+Posts can be organized using categories and tags.
+They show up in your site's blog feed, archives, and search results.
+Posts can have comments enabled.
+---
+How to Create a Post (via Admin Panel)
+1. Login to your WordPress Admin Panel.
+2. Go to Posts > Add New.
+3. Enter a Title and Content.
+4. Assign categories, tags, and add a featured image if needed.
+5. Click Publish.
+---
+How to Display Posts on Your Site
+1. On Your Homepage (Blog Page)
+By default, WordPress shows latest posts on the homepage.
+Or go to Settings > Reading, then set:
+Your homepage displays: “Your latest posts”.
+2. Using a Loop in a Theme File (PHP)
+To display posts manually in your theme:
+<?php
+$args = array(
+    'post_type' => 'post',
+    'posts_per_page' => 5
+);
+$query = new WP_Query($args);
+if ($query->have_posts()) :
+    while ($query->have_posts()) : $query->the_post(); ?>
+        <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+        <div><?php the_excerpt(); ?></div>
+    <?php endwhile;
+    wp_reset_postdata();
+else :
+    echo '<p>No posts found.</p>';
+endif;
+?>
+3. Using a Block Theme or Page Builder
+With block themes, use the Query Loop Block.
+With Elementor, use the Posts Widget to display posts visually.
+---
+Would you like help doing this in a specific way—like with a page builder, in code, or on a specific theme?
