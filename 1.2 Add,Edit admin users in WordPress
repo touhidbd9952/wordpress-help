@@ -1,0 +1,29 @@
+///////Add,Edit admin users in WordPress///////
+To manage admin users in WordPress, follow these steps:
+1. Log in to WordPress Admin Panel
+Go to: yourwebsite.com/wp-admin
+Log in with your admin credentials.
+2. Navigate to Users Section
+On the left sidebar, click Users > All Users.
+Here, you’ll see a list of all registered users.
+3. Add a New Admin User
+Click Add New at the top.
+Fill in:
+Username
+Email
+First/Last Name (optional)
+Website (optional)
+Password
+Role: Set this to Administrator
+Click Add New User
+4. Edit or Remove an Existing Admin
+Hover over the username and click Edit.
+You can change the email, role, or other details.
+To remove the user, click Delete under the username (note: be careful when deleting an admin).
+5. Change a User’s Role to Admin
+Go to Users > All Users
+Check the box next to a user
+From the Change role to… dropdown, select Administrator
+Click Change
+Would you like a way to do this programmatically via code (PHP), like in functions.php or through a plugin?
+
