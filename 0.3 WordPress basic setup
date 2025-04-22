@@ -1,0 +1,48 @@
+///////WordPress basic setup/////////
+
+Here’s a basic setup guide for WordPress:
+---
+1. Prerequisites
+Before installing WordPress, make sure you have:
+A domain name
+A web hosting account (like Bluehost, SiteGround, or Hostinger)
+PHP (v7.4+), MySQL (v5.7+ or MariaDB 10.3+), and Apache/Nginx on your server
+Or, for local development:
+Use XAMPP, MAMP, WAMP, or Local by Flywheel
+---
+2. Download WordPress
+Go to wordpress.org/download
+Download the latest version and extract the zip
+---
+3. Create a Database
+Log in to phpMyAdmin
+Click "New" to create a database (e.g., wordpress_db)
+Choose utf8mb4_general_ci collation
+---
+4. Configure wp-config.php
+Rename wp-config-sample.php to wp-config.php
+Edit it with your database details:
+define( 'DB_NAME', 'wordpress_db' );
+define( 'DB_USER', 'root' );
+define( 'DB_PASSWORD', '' ); // or your DB password
+define( 'DB_HOST', 'localhost' );
+---
+5. Upload Files to Server
+If local, copy files to htdocs/wordpress (XAMPP) or relevant directory
+If on a web host, use FTP (like FileZilla) to upload files to your domain’s root folder
+---
+6. Run the Installer
+Visit your site in the browser:
+http://localhost/wordpress
+or
+https://yourdomain.com
+Follow the setup wizard:
+Choose language
+Site title, admin username/password, email
+Install
+---
+7. Log in
+Go to https://yourdomain.com/wp-admin
+Log in with the admin credentials
+---
+Let me know if you want help setting up a theme, plugins, or custom functionality!
