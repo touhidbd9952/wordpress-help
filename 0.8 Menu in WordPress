@@ -1,0 +1,17 @@
+///////Change the menu in WordPress////////////////
+
+To change the menu in WordPress, follow these steps:
+Via WordPress Admin Dashboard:
+1. Login to your WordPress admin panel.
+2. Go to Appearance > Menus.
+3. Choose a menu to edit from the dropdown (or create a new one).
+4. Add items to the menu:
+Use the left-side panel to add Pages, Posts, Custom Links, or Categories.
+5. Reorder items by dragging and dropping.
+6. Set display location:
+Scroll down to “Menu Settings” and check the box for the theme location (e.g., Primary, Footer, etc.).
+7. Click Save Menu.
+Optional:
+To manage menus through the Customizer:
+Go to Appearance > Customize > Menus for a live preview as you make changes.
+Want help changing it programmatically or adding conditional logic to the menu too?
