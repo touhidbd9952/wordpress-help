@@ -1,0 +1,18 @@
+////////Pape in WordPress/////////////////
+
+In WordPress, a page (sometimes mistyped as "pape") is a type of content that is typically used for static information — like an "About Us", "Contact", or "Privacy Policy" page.
+---
+How to Create a Page in WordPress:
+1. Log in to your WordPress Dashboard.
+2. Go to Pages > Add New.
+3. Enter a title (e.g., "Contact Us") and your content in the editor.
+4. Click Publish.
+---
+How to Add a Page to the Menu:
+1. Go to Appearance > Menus.
+2. Select or create a menu at the top (e.g., "Main Menu").
+3. In the left panel, find your new page under Pages, check the box, and click Add to Menu.
+4. Drag to rearrange if needed.
+5. Click Save Menu.
+---
+Let me know if you’re using a custom theme or want to add a page link manually in code!
