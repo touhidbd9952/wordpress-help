@@ -1,0 +1,32 @@
+///////Media in WordPress//////////
+
+In WordPress, media refers to files like images, videos, audio, and documents (e.g., PDFs) that you can upload and use in your posts, pages, and theme. 
+All media files are managed in the Media Library.
+
+How to Create (Upload) Media in WordPress
+You can upload media in several ways:
+1. Through the Admin Dashboard
+Go to Dashboard > Media > Add New.
+Click "Select Files" and choose files from your computer, or drag and drop them.
+The files are now added to the Media Library and can be reused anywhere.
+2. While Editing Posts/Pages
+Open a post or page.
+Click the "Add Media" button above the editor.
+Upload a new file or choose from existing ones in the library.
+Click "Insert into post" to add it.
+---
+How to Use Media
+In Posts/Pages
+When inserting media into content, you can set:
+Alignment (left, center, right, none)
+Size (thumbnail, medium, large, full)
+Link options (link to media file, attachment page, or none)
+In Themes/Custom Code
+You can get media URLs via the Media Library and use them in templates. Example in PHP:
+<img src="<?php echo wp_get_attachment_url($attachment_id); ?>" alt="Image">
+---
+Tips
+Use descriptive file names and alt text for better SEO.
+You can organize media using plugins (WordPress doesn't support folders natively).
+Optimize images before uploading to improve site speed.
+Do you want help with inserting media in a custom theme or plugin too?
