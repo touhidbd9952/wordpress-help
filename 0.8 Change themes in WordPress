@@ -1,0 +1,18 @@
+////////Change themes in WordPress////////
+
+To change themes in WordPress, follow these steps:
+From the WordPress Dashboard:
+1. Log into your WordPress admin panel (usually yourdomain.com/wp-admin).
+2. Go to Appearance > Themes.
+3. You’ll see all the installed themes. To switch:
+Hover over the theme you want to activate.
+Click the Activate button.
+To add and use a new theme:
+1. Go to Appearance > Themes > Add New.
+2. Browse or search for a theme.
+3. Click Install, then Activate once it's done.
+To upload a theme (from a .zip file):
+1. Go to Appearance > Themes > Add New > Upload Theme.
+2. Click Choose File, select the .zip file, and click Install Now.
+3. Click Activate after installation.
+Let me know if you’re using a specific theme or builder like Elementor, and I can tailor the steps.
