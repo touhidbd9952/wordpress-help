@@ -1,0 +1,45 @@
+1. Install new theme:
+
+- Open browser
+- type "localhost/abc/wp-admin" and press enter
+	username: admin
+	password: admin
+	click on "Log In" button
+
+- Go to "Apprence"--> Theme
+- click on "Add New" button
+- click on search box and type "your theme name"
+	- select your theme
+	- click on "Install" button
+	- click on "Active" button
+
+
+2. See how new theme change your website
+
+- Open browser
+- type "localhost/abc" and press enter
+
+
+Another way you can install theme
+---------------------------------------------
+1. Download Theme
+
+- Open browser
+- type "wordpress.org" and press enter
+- select which theme you need
+	- click on its "Download" button
+	- copy downloaded theme
+	- go to htdocs --> abc --> wp-content --> themes --> paste --> Extert here
+- Active Theme:
+	- Open browser
+	- type "localhost/abc/wp-admin" and press enter
+	- go to "Apperence" --> Themes
+	- refresh page
+	- select your theme and click on "Active" button
+
+2. See how new theme change your website
+
+- Open browser
+- type "localhost/abc" and press enter
+
+
