@@ -1,0 +1,13 @@
+People can give comments on a page if you enagle comments on page
+
+How to enagle comments Section on a Page:
+
+- Go to Admin Panel (localhost/abc/wp-admin)
+- Pages --> All Pages
+	- select page
+	- click on "Edit"
+	- Document --> Discussion
+		- Allow Comments (click)
+
+	- click on "Update" button
+
