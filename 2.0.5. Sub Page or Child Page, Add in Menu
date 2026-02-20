@@ -1,0 +1,17 @@
+1. Sub Page(Child Page/Drop Down Page) Create:
+
+	- go to admin panel (localhost/abc/wp-admin)
+	- Pages --> All Pages --> Add New
+		- Add Title: Your page Title
+		- click on "Document" --> Page Attributes 
+			- Parent Page: select parent page 
+		- click on "Publish" button
+    
+2. Add Page In Menu
+
+	- Apperence --> Menus
+	- in "Page" --> select your sub page and checked it
+	- click on "Add to Menu" button
+	- drug sub page under parent page (move to right a little bit)
+	- "Save Menu" click
+
