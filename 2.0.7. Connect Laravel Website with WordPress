@@ -1,0 +1,50 @@
+1. Prepare Laravel Website
+
+2. Connect Laravel Website with WordPress:
+	- Login to WordPress Admin:
+		Local Server: localhost/abc/wp-admin
+		Live Server: https://yourdomain.com/wp-admin
+
+	- Go to Menu Settings ( 👉 Appearance → Menus )
+
+	- Select the Correct Menu (Apply Now ▼)
+		- Click the small ▼arrow icon to expand it.
+		- Replace the URL : https://yourdomain.com/payment/register
+
+	- Click "Save Menu"
+
+	✅ Done 🎉
+	
+
+🔎 If “Apply Now” is a Page (Not Custom Link)
+
+Sometimes menu item is linked to a WordPress Page.
+
+If you open it and don’t see URL field, then it is linked to a Page.
+
+In that case: 
+
+🔁 Remove the Page from Menu and Add Custom Link
+
+Step 1️  Go to: Dashboard → Appearance → Menus
+
+Step 2️ Find “Apply Now” in menu
+
+	Click the small arrow ▼
+	Then click Remove
+
+Step 3️ Add Custom Link
+
+	On left side click:  👉 Custom Links
+
+	URL: https://your-laravel-domain.com/register
+
+	Link Text:  Apply Now
+
+	Click "Add to Menu"
+
+Step 4️ Click “Save Menu”
+
+🎉 Done.
+
+Now “Apply Now” will open your Laravel registration page.
