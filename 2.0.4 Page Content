@@ -1,0 +1,19 @@
+- Open browser
+- Login to Admin Panel (localhost/abc/wp-admin)
+- Pages --> All Pages
+	- select page --> click on "Edit" button
+		Text: copy text and peste here
+		Image: click on "+" button --> Image
+			- click on "Upload" button and select image
+			- to set "Thumbnail Image" --> click on "Documents" --> Featured Image
+			           --> Upload Files --> select image
+		Gellery: click on "+" button --> Gellery
+			- click on "Upload" button and select multiple image
+			- gelery settings:
+				Columns: 4
+
+- click on "Publish" button to save
+
+
+ 
+			
