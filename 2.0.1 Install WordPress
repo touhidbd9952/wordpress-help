@@ -1,0 +1,52 @@
+1. Create Database:
+	- open browser and type "localhost"
+	- click on "phpmyadmin" menu
+	- create a database (db_abc) in MySQL
+	- copy database name in a text file
+
+2. Download WordPress:
+	- go to wordpress.org
+	- download latest version
+
+3. Put WordPress(downloaded) in htdocs and rename as your project
+	- copy wordpress downloaded zip file from download folder
+	- go to htdocs and paste it
+	- extract it
+	- rename it as your project name (abc)
+
+4. Install WordPress:
+	- open browser 
+	- type "localhost/abc" and press enter
+	- select language: English 
+	- click on "Continue" button
+	- click on "Let's go" button
+	- Database Setup:
+		Database Name: db_abc
+		Username: root
+		Password: 
+		Database Host: localhost
+		Table Prefix: wp_
+
+	- click on "Submit" button
+	- click on "Run the installation" button
+	- Website Admin Panel Setup:
+		Site Title: Abc Website
+		Username: admin
+		Password: admin
+		Confirm Password: check mark
+		Your Email: admin@gmail.com
+		Search Engine Visibility: un-check it (for google indexing)
+	
+	- click on "Install WordPress" button
+
+5. Run Website:
+	- open browser
+	- type "localhost/abc" and press enter
+
+6. Run Website Admin Panel:
+	- open browser
+	- type "localhost/abc/wp-admin" and press enter
+	- username: admin
+	- password: admin
+	- click on "Log In" button
+
