@@ -1,0 +1,38 @@
+1. Create Page:
+	- Open browser 
+	- type "localhost/abc/wp-admin" and press enter
+		- username: admin
+		- password: admin
+		- click on "Log In" button
+	- click on "Pages" --> All Pages
+		- click on "Add New" button
+		- create home, about, contact page
+			- Title: Home
+			- click on "Publish" button
+		
+			- Title: About
+			- click on "Publish" button
+
+			- Title: Contact
+			- click on "Publish" button
+
+2. Create Menu:
+	- click on "Apperence" --> Menus
+	- click on "Create A New Menu" link
+		- Menu Name: Header Menu
+		- click on "Create Menu" button
+
+3. Add Page in Menu
+	- check page (left side)
+	- click on "Add to Menus" button
+
+4. Set sequence menu:
+	- up and down menu by mouse
+
+5. Menu Settings
+	- Automatically add ... (check mark)
+	- Main currently set to Top Menu (check mark)
+
+
+
+
