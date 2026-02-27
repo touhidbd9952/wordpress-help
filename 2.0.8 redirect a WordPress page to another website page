@@ -1,0 +1,23 @@
+///To redirect a WordPress page to another website page//////////////////
+
+Using a Plugin: Redirection
+
+1. Go to WordPress Dashboard → Plugins → Add New
+
+2. Search: Redirection
+
+3. Install & Activate
+
+4. Go to Tools → Redirection / click on "Manage"
+
+5. Click "Add New"
+
+Set:
+
+Source URL → /old-page/
+
+Target URL → https://example.com/new-page
+
+Click Add Redirect
+
+✔ Done
