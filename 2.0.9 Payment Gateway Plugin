@@ -1,0 +1,33 @@
+///Remove Payment Plugin:
+
+1. Login WordPress Admin Dashboard (localhost/ecomwordpress/wp-admin)
+2. click on "Plugins" --> Paperless Payment
+3. Deactive --> Delete
+
+///Install Payment Plugin:
+Step-1
+----------
+Download Payment Plugin:
+1. Download and put in Download Folder
+
+Step-2
+----------
+Install:
+1. Login WordPress Admin Dashboard (localhost/ecomwordpress/wp-admin)
+2. click on "Plugins" --> Add Plugin --> Upload Plugin --> Browse --> select Payment Plugin
+3. Install --> Active
+
+Step-3
+----------
+Set muid, app key:
+1. in Dashboard, click on "Payment"
+2. Paperless Gateway --> Manage
+	Merchant Unique ID (muid) :
+	Access App Key:
+
+3. click on "Save changes"
+
+
+
+
+
