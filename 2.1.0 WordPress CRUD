@@ -1,0 +1,650 @@
+///////////International Standard WordPress CRUD Architecture/////////////////////
+suppose, we need to add student information. so we can create a module (student) below way
+
+Professional plugin(module folder) structure:
+
+student            (Create a folder: wp-content/plugins/student)
+│
+├── student.php  (Create a file: student.php)
+├── uninstall.php (Optional)
+├── includes                  (Create a folder)
+│    ├── Database.php	(create file for table)
+│    ├── StudentModel.php	    (create model)
+│    └── StudentController.php       (create controller)
+│
+├── views (Create a folder)
+│    ├── create.php
+│    ├── list.php
+│    └── edit.php
+│
+└── assets (Create folder)
+     ├── css
+     └── js
+
+
+Activate the plugin in WordPress Admin → Plugins.
+
+CRUD Flow
+-----------------------------
+Form (View)
+     ↓
+Controller
+     ↓
+Validation + Sanitization
+     ↓
+Model
+     ↓
+Database
+     ↓
+Return Data
+     ↓
+View
+
+
+CRUD must use
+=======================
+
+Security		Function
+---------------------------------------------------------
+CSRF Protection:	wp_nonce_field()
+Verify Form:	wp_verify_nonce()
+Input Clean:	sanitize_text_field()
+Output Safe:	esc_html()
+Safe output: 	esc_attr()
+Email Clean:	sanitize_email()
+Prevent accidental delete:    confirm()
+ID sanitization: 	intval()
+url security : 	esc_url()
+SQL safety:	$wpdb->prepare()
+
+
+Database.php
+--------------------------
+class Database {
+
+    public static function create_table() {
+
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'students';
+
+        $charset = $wpdb->get_charset_collate();
+
+        $sql = "CREATE TABLE $table (
+            id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+            name VARCHAR(100),
+            email VARCHAR(100),
+            phone VARCHAR(20),
+            image varchar(255),
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY(id)
+        ) $charset;";
+
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+
+        dbDelta($sql);
+    }
+}
+
+In student.php
+--------------------------
+<?php
+/*
+Plugin Name: Student CRUD System
+Description: Simple Student Management CRUD Plugin
+Version: 1.0
+Author: Your Name
+*/
+
+if(!defined('ABSPATH')){
+    exit;
+}
+
+/* Load Classes */
+
+require_once plugin_dir_path(__FILE__).'/includes/Database.php';
+require_once plugin_dir_path(__FILE__).'/includes/StudentModel.php';
+require_once plugin_dir_path(__FILE__).'/includes/StudentController.php';
+
+/* Create Database Table */
+
+register_activation_hook(__FILE__, ['Database','create_table']);
+
+/* Initialize Plugin */
+
+function student_plugin_init(){
+
+    new StudentController();
+
+}
+
+add_action('plugins_loaded','student_plugin_init');
+
+
+uninstall.php
+--------------------------
+<?php
+
+if(!defined('WP_UNINSTALL_PLUGIN')){
+    exit;
+}
+
+global $wpdb;
+
+$table = $wpdb->prefix.'students';
+
+/* Delete Uploaded Images */
+
+$students = $wpdb->get_results("SELECT image FROM $table");
+
+$upload_dir = wp_upload_dir();
+
+foreach($students as $student){
+
+    if(empty($student->image)){
+        continue;
+    }
+
+    $file_path = str_replace(
+        $upload_dir['baseurl'],
+        $upload_dir['basedir'],
+        $student->image
+    );
+
+    if(file_exists($file_path)){
+        unlink($file_path);
+    }
+}
+
+/* Drop Table */
+
+$wpdb->query("DROP TABLE IF EXISTS $table");
+
+
+
+
+StudentModel.php
+--------------------------
+class StudentModel {
+
+    private $table;
+
+    public function __construct() {
+        global $wpdb;
+        $this->table = $wpdb->prefix.'students';
+    }
+
+    public function get_all($limit,$offset) 
+    {
+        global $wpdb;
+        return $wpdb->get_results(
+        	$wpdb->prepare(
+        	"SELECT * FROM {$this->table} ORDER BY id DESC LIMIT %d OFFSET %d",
+        	$limit,
+        	$offset
+    	)
+         );
+
+        or
+
+        $table = $wpdb->prefix.'students';
+        return $wpdb->get_results(
+	$wpdb->prepare(
+	"SELECT * FROM $table ORDER BY id DESC LIMIT %d OFFSET %d",
+	$limit,
+	$offset
+	)
+         );
+    }
+
+    public function insert($data) {
+        global $wpdb;
+        return $wpdb->insert(
+		$this->table,
+		$data,
+    		['%s','%s','%s','%s']
+		);
+    }
+    
+    public function find($id){
+
+       global $wpdb;
+
+       $table = $wpdb->prefix.'students';
+
+       return $wpdb->get_row(
+           $wpdb->prepare("SELECT * FROM $table WHERE id=%d",$id)
+       );
+   }
+
+    public function update($id,$data) {
+        global $wpdb;
+        return $wpdb->update(
+			$this->table,
+			$data,
+			['id'=>$id],
+    			null,
+    			['%d']
+		         );
+    }
+
+    public function delete($id) {
+        global $wpdb;
+        return $wpdb->delete($this->table,['id'=>$id]);
+    }
+
+     public function total_students(){
+         global $wpdb;
+         $table = $wpdb->prefix.'students';
+         return $wpdb->get_var("SELECT COUNT(*) FROM $table");
+     }
+
+
+}
+
+
+StudentController.php
+--------------------------
+class StudentController {
+
+    public function __construct() {
+
+        add_shortcode('student_create',[$this,'create_form']);
+        add_shortcode('student_list',[$this,'list']);
+        add_shortcode('student_edit',[$this,'edit']);
+
+        add_action('admin_post_save_student', [$this,'store']);
+        add_action('admin_post_update_student', [$this,'update']);
+        add_action('init',[$this,'delete']);
+    }
+
+    public function create_form() {
+        include plugin_dir_path(__FILE__).'../views/create.php';
+    }
+
+    public function list() 
+    {
+        ////pagination////
+        $paged = isset($_GET['pg']) ? intval($_GET['pg']) : 1;
+        $limit = 5;
+         $offset = ($paged - 1) * $limit;
+     
+        $model = new StudentModel();
+        $students = $model->get_all($limit,$offset);
+
+        $total = $model->total_students();
+        $total_pages = ceil($total / $limit);
+
+        include plugin_dir_path(__FILE__).'../views/list.php';
+    }
+
+    public function store() 
+    {
+
+        if(isset($_POST['save_student'])) 
+        {
+
+            if(!wp_verify_nonce($_POST['_wpnonce'],'save_student_nonce')) 
+            {
+                return;
+            }
+
+            $image_url = '';
+
+            if(!empty($_FILES['student_image']['name']))
+            {
+	$filetype = wp_check_filetype($_FILES['student_image']['name']);
+    	$allowed = ['jpg','jpeg','png','webp'];
+
+    	if(!in_array($filetype['ext'],$allowed)){
+        		return;
+    	}
+
+	require_once(ABSPATH.'wp-admin/includes/file.php');
+
+	$uploaded = wp_handle_upload(
+	$_FILES['student_image'],
+	['test_form'=>false]
+	);
+
+	if(isset($uploaded['url'])){
+	     $image_url = $uploaded['url'];   //image upload in wp-content/uploads
+	}
+
+            }
+
+            $model = new StudentModel();
+
+            $data = [
+
+                'name'  => sanitize_text_field($_POST['name']),
+                'email' => sanitize_email($_POST['email']),
+                'phone' => sanitize_text_field($_POST['phone']),
+	'image' => $image_url
+            ];
+
+            $model->insert($data);
+
+	wp_redirect(home_url('/student-list'));
+         	exit;
+        }
+         
+    }
+
+     public function edit() 
+     {
+
+        if(!isset($_GET['id'])) return;
+
+        $id = intval($_GET['id']);
+
+        $model = new StudentModel();
+
+        $student = $model->find($id);
+
+        include plugin_dir_path(__FILE__) . '../views/edit.php';
+    }
+
+     public function update()
+     {
+	if(isset($_POST['update_student'])){
+
+	if(!wp_verify_nonce($_POST['_wpnonce'],'update_student_nonce')){
+		return;
+	}
+
+                $image_url = '';
+
+                if(!empty($_FILES['student_image']['name'])){
+
+		require_once(ABSPATH.'wp-admin/includes/file.php');
+
+		$uploaded = wp_handle_upload(
+		$_FILES['student_image'],
+		['test_form'=>false]
+		);
+
+                	if(isset($uploaded['url'])){
+    			$image_url = $uploaded['url'];
+                	}
+
+                 }
+
+	$id = intval($_POST['id']);
+
+	$data = [
+
+		'name'  => sanitize_text_field($_POST['name']),
+		'email' => sanitize_email($_POST['email']),
+		'phone' => sanitize_text_field($_POST['phone'])
+
+	];
+
+                if($image_url){
+		$data['image']=$image_url;
+                }
+
+	$model = new StudentModel();
+
+	$model->update($id,$data);
+
+	wp_redirect(home_url('/student-list'));
+	exit;
+	}
+	
+     }
+
+     public function delete(){
+
+	if(isset($_GET['action']) && $_GET['action']=='delete_student'){
+
+	if(!isset($_GET['nonce']) || !wp_verify_nonce($_GET['nonce'],'delete_student_nonce')){
+		return;
+	}
+
+	$id = intval($_GET['id']);
+
+	$model = new StudentModel();
+
+	$student = $model->find($id);
+
+	if(!$student){
+    	    return;
+	}
+
+	$upload_dir = wp_upload_dir();
+	$file_path = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $student->image);
+
+	if(file_exists($file_path)){
+		unlink($file_path);
+	}
+
+	$model->delete($id);
+	
+	wp_redirect(home_url('/student-list'));
+   	exit;
+      	}
+	
+     }
+
+
+}
+
+
+5️⃣ View
+
+create.php
+--------------------------
+<form method="post" enctype="multipart/form-data">
+
+<input type="hidden" name="action" value="save_student">
+
+<?php wp_nonce_field('save_student_nonce'); ?>
+
+<input type="text" name="name" placeholder="Name">
+
+<input type="email" name="email" placeholder="Email">
+
+<input type="text" name="phone" placeholder="Phone">
+
+<p>
+Student Image
+<input type="file" name="student_image">
+</p>
+
+<button name="save_student">Save</button>
+
+</form>
+
+list.php
+--------------------------
+<table>
+
+<tr>
+<th>ID</th>
+<th>Image</th>
+<th>Name</th>
+<th>Email</th>
+<th>Phone</th>
+<th></th>
+</tr>
+
+<?php foreach($students as $student): ?>
+
+<tr>
+
+<td><?php echo esc_html($student->id); ?></td>
+<td>
+<img src="<?php echo esc_url($student->image); ?>" width="80">
+</td>
+<td><?php echo esc_html($student->name); ?></td>
+<td><?php echo esc_html($student->email); ?></td>
+<td><?php echo esc_html($student->phone); ?></td>
+<td>
+     <a href="<?php echo esc_url( site_url('/student-edit?id='.$student->id) ); ?>">
+       Edit
+     </a>
+     
+    <?php
+	$url = add_query_arg([
+	'action'=>'delete_student',
+	'id'=>$student->id,
+	'nonce'=>wp_create_nonce('delete_student_nonce')
+	]);
+     ?>
+     <a href="<?php echo esc_url($url); ?>" onclick="return confirm('Are you sure you want to delete this student?');">
+	Delete
+     </a>
+</td>
+
+</tr>
+
+<?php endforeach; ?>
+
+</table>
+
+<div class="pagination">
+
+<?php for($i=1; $i <= $total_pages; $i++): ?>
+	<a href="?pg=<?php echo $i; ?>"
+	     style="margin:5px;
+	     <?php if($i==$paged) echo 'font-weight:bold'; ?>">
+	     <?php echo $i; ?>
+	</a>
+<?php endfor; ?>
+
+or
+
+<?php
+echo paginate_links([
+'base' => add_query_arg('pg','%#%'),
+'format' => '',
+'current' => $paged,
+'total' => $total_pages
+]);
+?>
+
+</div>
+
+
+edit.php
+--------------------------
+<form method="post" enctype="multipart/form-data">
+
+<?php wp_nonce_field('update_student_nonce'); ?>
+
+<input type="hidden" name="action" value="update_student">
+
+<input type="hidden" name="id" value="<?php echo esc_attr($student->id); ?>">
+
+<p>
+<label>Name</label><br>
+<input type="text" name="name" 
+value="<?php echo esc_attr($student->name); ?>" required>
+</p>
+
+<p>
+<label>Email</label><br>
+<input type="email" name="email" 
+value="<?php echo esc_attr($student->email); ?>" required>
+</p>
+
+<p>
+<label>Phone</label><br>
+<input type="text" name="phone" 
+value="<?php echo esc_attr($student->phone); ?>">
+</p>
+
+<p>
+Current Image <br>
+<img src="<?php echo esc_url($student->image); ?>" width="80">
+</p>
+
+<p>
+Change Image
+<input type="file" name="student_image">
+</p>
+
+<p>
+<button type="submit" name="update_student">
+Update Student
+</button>
+</p>
+
+</form>
+
+
+
+//////Show Data in WordPress Page////////////////////////////////////////////////
+--------------------------------------------------
+in your controller construct(), you declared route below:
+        add_shortcode('student_create',[$this,'create_form']);
+        add_shortcode('student_list',[$this,'list']);
+        add_shortcode('student_edit',[$this,'edit']);
+
+Create Page and Add Route
+----------------------------------
+Go to WordPress Admin → Pages
+
+Student Create page content (Shortcode):
+				[student_create]
+Student List page content (Shortcode):
+				[student_list]
+Student Edit page content (Shortcode):
+				[student_edit]
+
+
+Professional Data Flow
+------------------------------------------
+
+Browser
+   ↓
+WordPress Page
+   ↓
+Shortcode
+   ↓
+Controller
+   ↓
+Model
+   ↓
+Database Query
+   ↓
+View
+   ↓
+HTML Output
+
+
+Professional Plugin Flow
+-------------------------------------
+Activate Plugin
+↓
+Database::create_table()
+
+User adds students
+↓
+Images saved
+↓
+Database records saved
+
+
+Delete Plugin
+↓
+uninstall.php runs
+↓
+Delete images
+↓
+Drop table
+↓
+Database clean
+
+
+
+
+
+
+
+
+
+
+
+
